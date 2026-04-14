@@ -4,7 +4,7 @@
   "description": "A template for HTML and CSS",
   "main": "index.html",
   "scripts": {
-    "start": "serve"
+    "start": "serve -s . -l tcp://0.0.0.0:${PORT:-3000}"
   },
   "keywords": [
     "html",
@@ -12,7 +12,7 @@
   ],
   "author": "Ives van Hoorne",
   "license": "MIT",
-  "devDependencies": {
-    "serve": "11.2.0"
+  "dependencies": {
+    "serve": "^14.2.0"
   }
 }
