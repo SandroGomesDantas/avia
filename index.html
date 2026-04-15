@@ -195,7 +195,13 @@
         </svg>
         <span class="avia-logo-text text-2xl">AVIA</span>
       </div>
-      <div id="header-actions" class="hidden flex gap-4">
+      <div id="header-actions" class="flex gap-4">
+        <button
+          onclick="configApiKey()"
+          class="px-4 py-2 text-indigo-500 hover:text-indigo-700 text-sm font-bold transition-colors border border-indigo-200 rounded-lg hover:bg-indigo-50"
+        >
+          🔑 Configurar API Key
+        </button>
         <button
           onclick="resetApp()"
           class="px-4 py-2 text-slate-500 hover:text-indigo-600 text-sm font-bold transition-colors"
@@ -1154,10 +1160,19 @@
     </div>
 
     <script>
-      let apiKey = localStorage.getItem("google_api_key");
-      if(!apiKey) {
-        apiKey = prompt("⚠️ SEGURANÇA: Cole sua nova chave de API do Google AI Studio para testar (não será salva no código):");
-        localStorage.setItem("google_api_key", apiKey);
+      let apiKey = localStorage.getItem("google_api_key") || "";
+
+      function configApiKey() {
+        const input = prompt("Cole sua Chave da API do Google AI Studio para este dispositivo:");
+        if (input && input.trim() !== "") {
+          apiKey = input.trim();
+          localStorage.setItem("google_api_key", apiKey);
+          alert("Chave salva temporariamente com segurança!");
+        } else if (input === "") {
+          apiKey = "";
+          localStorage.removeItem("google_api_key");
+          alert("Chave removida.");
+        }
       }
 
       // UI
@@ -1243,6 +1258,10 @@
       // Logic
       extractBtn.onclick = async () => {
         if (!currentBase64) return;
+        if (!apiKey || apiKey.trim() === "") {
+          alert("Por favor, cole primeiro a Chave de API clicando em '🔑 Configurar API Key' no topo da tela antes de extrair os dados.");
+          return;
+        }
 
         showStep("step-loading");
         loaderLogs.innerHTML = "";
