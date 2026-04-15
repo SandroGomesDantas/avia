@@ -1154,7 +1154,11 @@
     </div>
 
     <script>
-      const apiKey = "AIzaSyBOAR6X1_8mNzIzjMoH5U7oQpFnah-ysA8";
+      let apiKey = localStorage.getItem("google_api_key");
+      if(!apiKey) {
+        apiKey = prompt("⚠️ SEGURANÇA: Cole sua nova chave de API do Google AI Studio para testar (não será salva no código):");
+        localStorage.setItem("google_api_key", apiKey);
+      }
 
       // UI
       const pdfInput = document.getElementById("pdf-input");
