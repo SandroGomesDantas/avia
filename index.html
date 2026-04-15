@@ -1319,8 +1319,10 @@
             }
           );
 
-          if (!response.ok)
-            throw new Error("Erro de comunicação com o servidor.");
+          if (!response.ok) {
+            const errorBody = await response.json();
+            throw new Error(errorBody.error?.message || "Erro desconhecido do Google API");
+          }
 
           updateProgress(75);
           addLog("Analisando campos do SISCOMEX...");
